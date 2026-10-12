@@ -1,13 +1,16 @@
 import './App.css'
-import Button from './Button'
-import Register from "./Register"
+import Navigation from './components/Navigation/Navigation'
+
 
 function App() {
 
+  function getDetailsFromChild(data){
+    console.log("works from Child", data)
+  }
+
   return (
     <>
-        <Button />
-        <Register whatever="Jerry" another="test100" color="green" />
+      <Navigation appname="ReactTest" fromchild={getDetailsFromChild} />
     </>
   )
 }
