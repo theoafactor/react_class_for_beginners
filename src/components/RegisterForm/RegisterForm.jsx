@@ -1,5 +1,7 @@
 import "./RegisterForm.css"
 import { useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router"
 
 function RegisterForm(){
     //set all the states
@@ -9,6 +11,8 @@ function RegisterForm(){
     const [email, setEmail] = useState("");
     const [email_error, setEmailError] = useState("")
     const [password, setPassword] = useState("")
+
+    const navigate = useNavigate()
 
 
     const handleFirstnameUpdate = (event) => {
@@ -32,7 +36,7 @@ function RegisterForm(){
     }
 
 
-    const registerUser = (event) => {
+    const registerUser = async (event) => {
         event.preventDefault()
 
         if(firstname.length == 0){
@@ -46,6 +50,20 @@ function RegisterForm(){
             setEmailError("You did not enter email")
         }else{
             setEmailError("")
+        }
+
+
+        // send to backend 
+        let feedback = await axios.post("http://localhost:2000/register", {
+            firstname, lastname, email, password
+        })
+
+        console.log(feedback);
+
+        if(feedback.data.code == "success"){
+            // the user is registered on the backend
+            // redirect to the user home page
+            await navigate("/home")
         }
 
     }
